@@ -13,8 +13,8 @@
 
 <p align="center">
   <a href="#rocket-about-the-project">About the project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-tools">Tools</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-functionalities">Functionalities</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#construction_worker-tools">Tools</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#pencil2-functionalities">Functionalities</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-license">License</a>
 </p>
 
@@ -24,7 +24,7 @@ This is the backend to an app for a fictional carrier, the FastFeet.
 
 This project is part of a complete application involving backend, frontend and mobile! (See my other repositories [comming soon])
 
-## Tools
+## :construction_worker: Tools
 
 The created app uses [Express](https://expressjs.com/), in addition to needing to configure the following tolls:
 
@@ -32,7 +32,7 @@ The created app uses [Express](https://expressjs.com/), in addition to needing t
 - ESLint + Prettier + EditorConfig;
 - Sequelize (PostgreSQL);
 
-## Functionalities
+## :pencil2: Functionalities
 
 ### **1. Authentication**
 
