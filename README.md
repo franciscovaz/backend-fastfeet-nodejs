@@ -36,18 +36,18 @@ The created app uses [Express](https://expressjs.com/), in addition to needing t
 
 ### **1. Authentication**
 
-Permita que um usuário se autentique em sua aplicação utilizando e-mail e uma senha.
+Allow a user to authenticate to the application using email and password
 
-Crie um usuário administrador utilizando a funcionalidade de [seeds do sequelize](https://sequelize.org/master/manual/migrations.html#creating-first-seed), essa funcionalidade serve para criarmos registros na base de dados de forma automatizada.
+Create an administrator user using the functionality of  [seeds do sequelize](https://sequelize.org/master/manual/migrations.html#creating-first-seed), this functionality works for create records in the database in an automated way.
 
-- A autenticação deve ser feita utilizando JWT.
-- Realize a validação dos dados de entrada - YUP;
+- The authentication must be done using JWT.
+- Perform input data validation with YUP - a Javascript schema
 
 ### 2. Addressee Management
 
-O cadastro de destinatários só pode ser feito por administradores autenticados na aplicação.
+The registration of recipients can only be done by administrators authenticated in the application.
 
-O destinatário não pode se autenticar no sistema, ou seja, não possui senha.
+The recipient can't authenticate himself in the system, that is, he doens't have a password.
 
 ## :memo: License
 
