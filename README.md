@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
- Backend - FastFeet
+ NodeJS Backend - FastFeet
 </h3>
 
 
