@@ -31,6 +31,7 @@ The created app uses [Express](https://expressjs.com/), in addition to needing t
 - Sucrase + Nodemon;
 - ESLint + Prettier + EditorConfig;
 - Sequelize (PostgreSQL);
+- [MORE TOLLS WITH THE RESOLUTION OF THE PROJECT]
 
 ## :pencil2: Functionalities
 
