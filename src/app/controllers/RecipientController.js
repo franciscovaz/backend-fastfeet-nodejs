@@ -25,7 +25,52 @@ class RecipientController {
   }
 
   async update(req, res) {
-    return res.json({ ok: true });
+    // TODO validar cep, numbers...
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      street: Yup.string(),
+      street_number: Yup.number(),
+      complement: Yup.string(),
+      state: Yup.string(),
+      city: Yup.string(),
+      cep: Yup.string(),
+    });
+
+    if (!req.params.id) {
+      return res.status(401).json({ error: 'ID of recipient not provided.' });
+    }
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(401).json({ error: 'Validation fails.' });
+    }
+
+    const recipientExists = await Recipient.findByPk(req.params.id);
+
+    if (!recipientExists) {
+      return res.status(400).json({ error: 'Recipient not exists.' });
+    }
+
+    const {
+      id,
+      name,
+      street,
+      street_number,
+      complement,
+      state,
+      city,
+      cep,
+    } = await recipientExists.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      street,
+      street_number,
+      complement,
+      state,
+      city,
+      cep,
+    });
   }
 }
 
