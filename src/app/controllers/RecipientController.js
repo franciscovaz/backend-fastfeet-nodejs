@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import Recipient from '../models/Recipient';
+import File from '../models/File';
 
 class RecipientController {
   async store(req, res) {
@@ -17,6 +18,14 @@ class RecipientController {
       return res
         .status(401)
         .json({ error: 'Validation Fails. Need to have all data' });
+    }
+
+    if (req.body.signature_id) {
+      const signatureExists = await File.findByPk(req.body.signature_id);
+
+      if (!signatureExists) {
+        return res.status(400).json({ error: 'Signature ID doesnt exists.' });
+      }
     }
 
     const recipient = await Recipient.create(req.body);
@@ -50,6 +59,14 @@ class RecipientController {
       return res.status(400).json({ error: 'Recipient not exists.' });
     }
 
+    if (req.body.signature_id) {
+      const signatureExists = await File.findByPk(req.body.signature_id);
+
+      if (!signatureExists) {
+        return res.status(400).json({ error: 'Signature ID doesnt exists.' });
+      }
+    }
+
     const {
       id,
       name,
@@ -59,6 +76,7 @@ class RecipientController {
       state,
       city,
       cep,
+      signature_id,
     } = await recipientExists.update(req.body);
 
     return res.json({
@@ -70,6 +88,7 @@ class RecipientController {
       state,
       city,
       cep,
+      signature_id,
     });
   }
 }
