@@ -2,8 +2,52 @@ import * as Yup from 'yup';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 import Order from '../models/Order';
+import File from '../models/File';
 
 class OrderController {
+  async index(req, res) {
+    const orders = await Order.findAll({
+      attributes: [
+        'id',
+        'recipient_id',
+        'deliveryman_id',
+        'product',
+        'signature_id',
+        'canceled_at',
+        'start_date',
+        'end_date',
+      ],
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['id', 'name', 'signature_id'],
+          include: [
+            {
+              model: File,
+              as: 'signature',
+              attributes: ['url'],
+            },
+          ],
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['id', 'name', 'email', 'avatar_id'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'url'],
+            },
+          ],
+        },
+      ],
+    });
+
+    return res.json(orders);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       recipient_id: Yup.number().required(),
