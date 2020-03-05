@@ -4,6 +4,8 @@ import Recipient from '../models/Recipient';
 import Order from '../models/Order';
 import File from '../models/File';
 
+import Mail from '../../lib/Mail';
+
 class OrderController {
   async index(req, res) {
     const orders = await Order.findAll({
@@ -73,32 +75,18 @@ class OrderController {
       return res.status(401).json({ error: "Deliveryman doesn't exist." });
     }
 
-    /* const hourStart = parseISO(start_date);
-
-    if (
-      !isWithinInterval(hourStart, {
-        start: startOfHour(setHours(hourStart, 8)),
-        end: startOfHour(setHours(hourStart, 18)),
-      })
-    ) {
-      return res.status(401).json({
-        error: 'You can only withdraw deliveries between 08:00h and 18:00h.',
-      });
-    }
-
-    /**
-     * Check if it's a past hour
-     */
-    /*
-    if (isBefore(hourStart, new Date())) {
-      return res.status(400).json({ error: "Past dates aren't permitted." });
-    } */
-
     const order = await Order.create({
       recipient_id,
       deliveryman_id,
       product,
     });
+
+    await Mail.sendMail({
+      to: `${deliverymanExists.name} <${deliverymanExists.email}>`,
+      subject: `Nova encomenda registada`,
+      text: `Produto: ${product} já está disponível para retirada.`,
+    });
+
     return res.json(order);
   }
 
