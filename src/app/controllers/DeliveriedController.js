@@ -1,8 +1,10 @@
 import { isBefore, startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
+import * as Yup from 'yup';
 import Order from '../models/Order';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
+import File from '../models/File';
 
 class DeliveriedController {
   async index(req, res) {
@@ -26,7 +28,22 @@ class DeliveriedController {
   }
 
   async update(req, res) {
-    const { delivery_id } = req.params;
+    const schema = Yup.object().shape({
+      signature_id: Yup.number().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
+
+    const { delivery_id, deliveryman_id } = req.params;
+    const { signature_id } = req.body;
+
+    const deliveryman = await Deliveryman.findByPk(deliveryman_id);
+
+    if (!deliveryman) {
+      return res.status(400).json({ error: "Deliveryman doesn't exist." });
+    }
 
     const order = await Order.findByPk(delivery_id, {
       include: [
@@ -42,6 +59,10 @@ class DeliveriedController {
       return res.status(401).json({ error: "Order doesn't exist." });
     }
 
+    if (order.deliveryman_id !== deliveryman.id) {
+      res.status(401).json({ error: 'Order assigned to another deliveryman.' });
+    }
+
     if (!order.start_date) {
       return res
         .status(400)
@@ -51,8 +72,6 @@ class DeliveriedController {
     if (order.canceled_at) {
       return res.status(400).json({ error: 'Order already canceled.' });
     }
-
-    const { deliveryman_id } = order;
 
     const WithdrawalsCount = await Order.findAndCountAll({
       where: {
@@ -76,8 +95,14 @@ class DeliveriedController {
         .json({ error: 'Start date is more recent than end date.' });
     }
 
+    const signature = await File.findByPk(signature_id);
+    if (!signature) {
+      return res.status(400).json({ error: "Signature doesn't exist." });
+    }
+
     await order.update({
       end_date: new Date(),
+      signature_id,
     });
 
     return res.json(order);
