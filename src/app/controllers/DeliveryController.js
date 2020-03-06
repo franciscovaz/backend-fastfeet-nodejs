@@ -82,7 +82,7 @@ class DeliveryController {
     if (WithdrawalsCount.count === 5 || WithdrawalsCount.count > 5) {
       return res
         .status(401)
-        .json({ error: 'the limit of start withdrawals reached' });
+        .json({ error: 'The limit of start withdrawals was reached.' });
     }
 
     // se data atual do start ésta entre as 8h e as 18h, e se nao é data do passado

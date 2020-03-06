@@ -1,4 +1,4 @@
-import { isBefore } from 'date-fns';
+import { isBefore, startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 import Order from '../models/Order';
 import Deliveryman from '../models/Deliveryman';
@@ -50,6 +50,23 @@ class DeliveriedController {
 
     if (order.canceled_at) {
       return res.status(400).json({ error: 'Order already canceled.' });
+    }
+
+    const { deliveryman_id } = order;
+
+    const WithdrawalsCount = await Order.findAndCountAll({
+      where: {
+        start_date: {
+          [Op.between]: [startOfDay(new Date()), endOfDay(new Date())],
+        },
+        deliveryman_id,
+      },
+    });
+
+    if (WithdrawalsCount.count === 5 || WithdrawalsCount.count > 5) {
+      return res
+        .status(401)
+        .json({ error: 'The limit of start withdrawals was reached.' });
     }
 
     // Verify if end_date > start_date
