@@ -84,7 +84,12 @@ class OrderController {
     await Mail.sendMail({
       to: `${deliverymanExists.name} <${deliverymanExists.email}>`,
       subject: `Nova encomenda registada`,
-      text: `Produto: ${product} já está disponível para retirada.`,
+      template: 'createOrder',
+      context: {
+        deliveryman: deliverymanExists.name,
+        recipient: recipientExists.name,
+        product,
+      },
     });
 
     return res.json(order);
@@ -95,6 +100,7 @@ class OrderController {
       recipient_id: Yup.number(),
       deliveryman_id: Yup.number(),
       product: Yup.string(),
+      canceled_at: Yup.date(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -107,7 +113,7 @@ class OrderController {
       return res.status(400).json({ error: "Order doesn't exist." });
     }
 
-    const { recipient_id, deliveryman_id, product } = req.body;
+    const { recipient_id, deliveryman_id, product, canceled_at } = req.body;
 
     const recipientExists = await Recipient.findByPk(recipient_id);
 
@@ -123,7 +129,7 @@ class OrderController {
 
     const { id } = await order.update(req.body);
 
-    return res.json({ id, recipient_id, deliveryman_id, product });
+    return res.json({ id, recipient_id, deliveryman_id, product, canceled_at });
   }
 
   async delete(req, res) {

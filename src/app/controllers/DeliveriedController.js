@@ -1,11 +1,42 @@
 import { isBefore } from 'date-fns';
+import { Op } from 'sequelize';
 import Order from '../models/Order';
+import Deliveryman from '../models/Deliveryman';
+import Recipient from '../models/Recipient';
 
 class DeliveriedController {
-  async update(req, res) {
-    const { order_id } = req.params;
+  async index(req, res) {
+    const { deliveryman_id } = req.params;
+    const deliveryman = await Deliveryman.findByPk(deliveryman_id);
 
-    const order = await Order.findByPk(order_id);
+    if (!deliveryman) {
+      return res.status(400).json({ error: "Deliveryman doesn't exist." });
+    }
+
+    const deliveries_delivered = await Order.findAll({
+      where: {
+        deliveryman_id,
+        end_date: {
+          [Op.ne]: null,
+        },
+      },
+    });
+
+    return res.json(deliveries_delivered);
+  }
+
+  async update(req, res) {
+    const { delivery_id } = req.params;
+
+    const order = await Order.findByPk(delivery_id, {
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['id', 'name', 'signature_id'],
+        },
+      ],
+    });
 
     if (!order) {
       return res.status(401).json({ error: "Order doesn't exist." });
