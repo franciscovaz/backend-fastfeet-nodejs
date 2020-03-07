@@ -80,7 +80,20 @@ class DeliveryProblemController {
       return res.status(400).json({ error: "Problem doesn't exist." });
     }
 
-    const order = await Order.findByPk(problem.delivery_id);
+    const order = await Order.findByPk(problem.delivery_id, {
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
 
     if (!order) {
       return res.status(400).json({ error: "Order doesn't exist anymore." });
@@ -98,11 +111,17 @@ class DeliveryProblemController {
 
     await order.save();
 
-    /* await Mail.sendMail({
-      to: `${deliveryman.name} <${deliveryman.email}>`,
+    await Mail.sendMail({
+      to: `${order.deliveryman.name} <${order.deliveryman.email}>`,
       subject: `Entrega Cancelada`,
-      template: 'cancelationDelivey'
-    }) */
+      template: 'cancelationDelivery',
+      context: {
+        deliveryman: order.deliveryman.name,
+        recipient: order.recipient.name,
+        product: order.product,
+        date: order.canceled_at,
+      },
+    });
 
     return res.json(order);
   }
