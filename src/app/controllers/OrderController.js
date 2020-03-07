@@ -4,7 +4,8 @@ import Recipient from '../models/Recipient';
 import Order from '../models/Order';
 import File from '../models/File';
 
-import Mail from '../../lib/Mail';
+import CreateOrderMail from '../jobs/CreateOrderMail';
+import Queue from '../../lib/Queue';
 
 class OrderController {
   async index(req, res) {
@@ -81,15 +82,10 @@ class OrderController {
       product,
     });
 
-    await Mail.sendMail({
-      to: `${deliverymanExists.name} <${deliverymanExists.email}>`,
-      subject: `Nova encomenda registada`,
-      template: 'createOrder',
-      context: {
-        deliveryman: deliverymanExists.name,
-        recipient: recipientExists.name,
-        product,
-      },
+    await Queue.add(CreateOrderMail.key, {
+      order,
+      deliverymanExists,
+      recipientExists,
     });
 
     return res.json(order);
