@@ -24,11 +24,9 @@ This is the backend to an app for a fictional carrier, the FastFeet.
 
 This project is part of a complete application involving backend, frontend and mobile! (See my other repositories [comming soon])
 
-## :construction_worker: Tools
+## :construction_worker: Technologies | Tools | Resources
 
 The created app uses [Express](https://expressjs.com/), in addition to needing to configure the following tolls:
-
-### **Technologies | Tools | Resources**
 
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
@@ -57,13 +55,14 @@ The created app uses [Express](https://expressjs.com/), in addition to needing t
 
 ## :pencil2: Functionalities
 
-### **1. User Regist and Authentication**
+### **1. User Registration and Authentication**
 ### **2. Upload Files (avatar)**
-### **3. Regist Appointments**
+### **3. Appointments Registration**
 ### **4. Send Notifications (MongoDB | Redis)**
-### **5. Cancel Appointment and Send Email**
+### **5. Appointement Cancellation and Send Email**
 ### **6. Handler Exceptions**
 ### **7. Environmental Vars**
+### **8. Others**
 
 ## :memo: License
 
