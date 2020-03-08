@@ -28,27 +28,42 @@ This project is part of a complete application involving backend, frontend and m
 
 The created app uses [Express](https://expressjs.com/), in addition to needing to configure the following tolls:
 
-- Sucrase + Nodemon;
-- ESLint + Prettier + EditorConfig;
-- Sequelize (PostgreSQL);
-- Comming Soon - [MORE TOLLS WITH THE RESOLUTION OF THE PROJECT]
+### **Technologies | Tools | Resources**
+
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [nodemon](https://nodemon.io/)
+- [Sucrase](https://github.com/alangpierce/sucrase)
+- [Sequelize](http://docs.sequelizejs.com/)
+- [ESLint](https://eslint.org/)
+- [Insomnia](https://insomnia.rest/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [node-postgres](https://www.npmjs.com/package/pg)
+- [Redis](https://redis.io/)
+- [MongoDB](https://www.mongodb.com/)
+- [Mongoose](https://mongoosejs.com/)
+- [Docker](https://www.docker.com/docker-community)
+- [JWT](https://jwt.io/)
+- [Multer](https://github.com/expressjs/multer)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Youch](https://www.npmjs.com/package/youch)
+- [Yup](https://www.npmjs.com/package/yup)
+- [Bee Queue](https://www.npmjs.com/package/bcrypt)
+- [Mailtrap](https://mailtrap.io/)
+- [Nodemailer](https://nodemailer.com/about/)
+- [date-fns](https://date-fns.org/)
+- [Sentry](https://sentry.io/)
+- [DotEnv](https://www.npmjs.com/package/dotenv)
 
 ## :pencil2: Functionalities
 
-### **1. Authentication**
-
-Allow a user to authenticate to the application using email and password
-
-Create an administrator user using the functionality of  [seeds do sequelize](https://sequelize.org/master/manual/migrations.html#creating-first-seed), this functionality works for create records in the database in an automated way.
-
-- The authentication must be done using JWT.
-- Perform input data validation with YUP - a Javascript schema
-
-### 2. Addressee Management
-
-The registration of recipients can only be done by administrators authenticated in the application.
-
-The recipient can't authenticate himself in the system, that is, he doens't have a password.
+### **1. User Regist and Authentication**
+### **2. Upload Files (avatar)**
+### **3. Regist Appointments**
+### **4. Send Notifications (MongoDB | Redis)**
+### **5. Cancel Appointment and Send Email**
+### **6. Handler Exceptions**
+### **7. Environmental Vars**
 
 ## :memo: License
 
